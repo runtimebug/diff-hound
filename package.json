@@ -1,0 +1,56 @@
+{
+  "name": "diff-hound",
+  "version": "1.0.0",
+  "description": "AI-powered code review bot for GitHub, GitLab, and Bitbucket",
+  "main": "./bin/index.js",
+  "bin": {
+    "diff-hound": "bin/diff-hound.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "lint": "eslint src/**/*.ts"
+  },
+  "keywords": [
+    "code-review",
+    "ai",
+    "github",
+    "gitlab",
+    "bitbucket",
+    "openai",
+    "claude",
+    "llm"
+  ],
+  "author": "runtimebug",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/runtimebug/diff-hound.git"
+  },
+  "dependencies": {
+    "@octokit/rest": "^21.1.1",
+    "commander": "^11.0.0",
+    "dotenv": "^16.3.1",
+    "js-yaml": "^4.1.0",
+    "openai": "^4.10.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.5",
+    "@types/node": "^20.6.0",
+    "@typescript-eslint/eslint-plugin": "^6.7.0",
+    "@typescript-eslint/parser": "^6.7.0",
+    "eslint": "^8.49.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
