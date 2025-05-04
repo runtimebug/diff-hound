@@ -1,6 +1,6 @@
 {
   "name": "diff-hound",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "AI-powered code review bot for GitHub, GitLab, and Bitbucket",
   "main": "./bin/index.js",
   "bin": {
