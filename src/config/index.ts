@@ -84,7 +84,7 @@ export function validateConfig(
 
   // Validate provider
   // Todo: Add more providers as needed ("anthropic", "deepseek", "groq", "gemini")
-  const validProviders: string[] = ["openai"];
+  const validProviders: string[] = ["openai", "ollama"];
   if (!validProviders.includes(finalConfig.provider)) {
     console.error(
       `Error: Invalid provider '${finalConfig.provider}'. Using default: ${DEFAULT_CONFIG.provider}`

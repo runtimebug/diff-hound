@@ -19,7 +19,7 @@ export function parseCli(): Partial<ReviewConfig> {
     .version(version)
     .option(
       "-p, --provider <provider>",
-      "The provider of the AI model (openai, anthropic, deepseek, groq, gemini)",
+      "The provider of the AI model (openai, ollama, anthropic, deepseek, groq, gemini)",
       DEFAULT_CONFIG.provider
     )
     .option(
@@ -65,6 +65,10 @@ export function parseCli(): Partial<ReviewConfig> {
       "--patch <path>",
       "Review a patch file directly (implies --local)"
     )
+    .option(
+      "--request-timeout <ms>",
+      "Request timeout in milliseconds (default: 120000)",
+    )
     .parse(process.argv);
 
   const options = program.opts();
@@ -85,6 +89,7 @@ export function parseCli(): Partial<ReviewConfig> {
     base: options.base,
     head: options.head,
     patch: options.patch,
+    requestTimeout: options.requestTimeout ? parseInt(options.requestTimeout, 10) : undefined,
   });
 }
 

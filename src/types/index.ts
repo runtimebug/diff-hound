@@ -6,7 +6,7 @@
 export type Platform = "github" | "local"; // | "gitlab" | "bitbucket"
 
 // AI models supported by the tool
-export type Provider = "openai"; // | "anthropic" | "deepseek" | "groq" | "gemini"
+export type Provider = "openai" | "ollama"; // | "anthropic" | "deepseek" | "groq" | "gemini"
 
 // Configuration for the review process
 export interface ReviewConfig {
@@ -23,6 +23,7 @@ export interface ReviewConfig {
   ignoreFiles?: string[];
   rules?: string[];
   customPrompt?: string;
+  requestTimeout?: number; // Request timeout in ms (default: 120000)
   // Local diff mode options
   local?: boolean;
   base?: string;

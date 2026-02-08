@@ -8,7 +8,7 @@ Supports GitHub today. GitLab and Bitbucket support are planned.
 
 ## ✨ Features
 
-- 🧠 Automated code review using OpenAI (Upcoming: Claude, DeepSeek, CodeLlama)
+- 🧠 Automated code review using OpenAI or Ollama (Upcoming: Claude, DeepSeek, Gemini)
 - 💬 Posts inline or summary comments on pull requests
 - 🔌 Plug-and-play architecture for models and platforms
 - ⚙️ Configurable with JSON/YAML config files and CLI overrides
@@ -54,12 +54,13 @@ Then modify with your keys / tokens:
 # Platform tokens
 GITHUB_TOKEN=your_github_token # Requires 'repo' scope
 
-# AI Model API keys
+# AI Model API keys (set one depending on your provider)
 OPENAI_API_KEY=your_openai_key
 ```
 
-> 🔐 `GITHUB_TOKEN` is used to fetch PRs and post comments – [get it here](https://github.com/settings/personal-access-tokens)  
+> 🔐 `GITHUB_TOKEN` is used to fetch PRs and post comments – [get it here](https://github.com/settings/personal-access-tokens)
 > 🔐 `OPENAI_API_KEY` is used to generate code reviews via GPT – [get it here](https://platform.openai.com/api-keys)
+> 💡 **Using Ollama?** No API key needed — just have Ollama running locally. See [Ollama (Local Models)](#ollama-local-models) below.
 
 ---
 
@@ -163,6 +164,48 @@ Local mode always runs in dry-run — output goes to your terminal. If `--base` 
 
 ---
 
+### Ollama (Local Models)
+
+Run fully offline code reviews using [Ollama](https://ollama.com) — no API key, no cloud, zero cost.
+
+**Prerequisites:** Install and start Ollama, then pull a model:
+
+```bash
+# Install Ollama (see https://ollama.com/download)
+ollama serve          # Start the Ollama server
+ollama pull llama3    # Pull a model (one-time)
+```
+
+**Run a review with Ollama:**
+
+```bash
+# Review local changes using Ollama
+diff-hound --provider ollama --model llama3 --local --base main
+
+# Use a code-specialized model
+diff-hound --provider ollama --model codellama --local --base main
+
+# Point to a remote Ollama instance
+diff-hound --provider ollama --model llama3 --model-endpoint http://my-server:11434 --local --base main
+
+# Increase timeout for large diffs on slower models (default: 120000ms)
+diff-hound --provider ollama --model llama3 --request-timeout 300000 --local --base main
+```
+
+**Or set it in your config file (`.aicodeconfig.json`):**
+
+```json
+{
+  "provider": "ollama",
+  "model": "llama3",
+  "endpoint": "http://localhost:11434"
+}
+```
+
+> 💡 Ollama's default endpoint is `http://localhost:11434`. You only need `--model-endpoint` / `endpoint` if running Ollama on a different host or port.
+
+---
+
 ### Output Example (Dry Run)
 
 ```bash
@@ -179,21 +222,22 @@ Consider refactoring to reduce nesting.
 
 ### Optional CLI Flags
 
-| Flag               | Short | Description                             |
-| ------------------ | ----- | --------------------------------------- |
-| `--provider`       | `-p`  | AI model provider (e.g. `openai`)       |
-| `--model`          | `-m`  | AI model (e.g. `gpt-4o`, `gpt-4`, etc.) |
-| `--model-endpoint` | `-e`  | Custom API endpoint for the model       |
-| `--git-provider`   | `-g`  | Repo platform (default: `github`)       |
-| `--repo`           | `-r`  | GitHub repo in format `owner/repo`      |
-| `--comment-style`  | `-s`  | `inline` or `summary`                   |
-| `--dry-run`        | `-d`  | Don't post comments, only print         |
-| `--verbose`        | `-v`  | Enable debug logs                       |
-| `--config-path`    | `-c`  | Custom config file path                 |
-| `--local`          | `-l`  | Review local git diff (always dry-run)  |
-| `--base`           |       | Base ref for local diff (branch/commit) |
-| `--head`           |       | Head ref for local diff (default: HEAD) |
-| `--patch`          |       | Path to a patch file (implies `--local`)|
+| Flag                | Short | Description                                        |
+| ------------------- | ----- | -------------------------------------------------- |
+| `--provider`        | `-p`  | AI model provider (`openai`, `ollama`)              |
+| `--model`           | `-m`  | AI model (e.g. `gpt-4o`, `llama3`)                 |
+| `--model-endpoint`  | `-e`  | Custom API endpoint for the model                  |
+| `--git-provider`    | `-g`  | Repo platform (default: `github`)                  |
+| `--repo`            | `-r`  | GitHub repo in format `owner/repo`                 |
+| `--comment-style`   | `-s`  | `inline` or `summary`                              |
+| `--dry-run`         | `-d`  | Don't post comments, only print                    |
+| `--verbose`         | `-v`  | Enable debug logs                                  |
+| `--config-path`     | `-c`  | Custom config file path                            |
+| `--local`           | `-l`  | Review local git diff (always dry-run)             |
+| `--base`            |       | Base ref for local diff (branch/commit)            |
+| `--head`            |       | Head ref for local diff (default: HEAD)            |
+| `--patch`           |       | Path to a patch file (implies `--local`)           |
+| `--request-timeout` |       | Request timeout in ms (default: 120000)            |
 
 ---
 
@@ -208,8 +252,9 @@ diff-hound/
 │   ├── cli/              # CLI argument parsing
 │   ├── config/           # JSON/YAML config handling
 │   ├── core/             # Diff parsing, formatting
-│   ├── models/           # AI model adapters
-│   ├── platforms/        # GitHub, GitLab, etc.
+│   ├── models/           # AI model adapters (OpenAI, Ollama)
+│   ├── platforms/        # GitHub, local git, etc.
+│   ├── schemas/          # Structured output types and validation
 │   └── types/            # TypeScript types
 ├── .env
 ├── README.md
@@ -233,9 +278,8 @@ Create a new class in `src/platforms/` that implements the `CodeReviewPlatform` 
 
 🔧 Structured logging (pino)
 🌐 GitLab and Bitbucket platform adapters
-🌍 Anthropic, Ollama, and Gemini model adapters
+🌍 Anthropic and Gemini model adapters
 📤 Webhook server mode and GitHub Action
-🧪 Vitest test suite
 📦 Docker image for self-hosting
 🧩 Plugin system with pipeline hooks
 🧠 Repo indexing and context-aware reviews
