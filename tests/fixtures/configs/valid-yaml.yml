@@ -1,0 +1,15 @@
+provider: openai
+model: gpt-4o-mini
+gitPlatform: github
+repo: owner/repo
+commentStyle: summary
+dryRun: true
+verbose: false
+severity: error
+ignoreFiles:
+  - "*.md"
+  - "dist/**"
+rules:
+  - "Enforce TypeScript strict mode"
+  - "Check for memory leaks"
+  - "Validate input sanitization"

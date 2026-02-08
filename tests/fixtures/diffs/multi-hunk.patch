@@ -1,0 +1,27 @@
+diff --git a/src/app.ts b/src/app.ts
+index 1111111..2222222 100644
+--- a/src/app.ts
++++ b/src/app.ts
+@@ -5,7 +5,7 @@ import { Database } from './db';
+ export class App {
+   private db: Database;
+ 
+-  constructor() {
++  constructor(config: AppConfig) {
+     this.db = new Database();
+   }
+ 
+@@ -20,8 +20,12 @@ export class App {
+     return this.db.query(sql);
+   }
+ 
+-  stop(): void {
++  async stop(): Promise<void> {
+     this.db.close();
++    await this.cleanup();
++  }
++
++  private async cleanup(): Promise<void> {
++    console.log('Cleaning up...');
+   }
+ }

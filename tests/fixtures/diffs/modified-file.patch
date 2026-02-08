@@ -1,0 +1,22 @@
+diff --git a/src/calculator.ts b/src/calculator.ts
+index abc1234..def5678 100644
+--- a/src/calculator.ts
++++ b/src/calculator.ts
+@@ -1,10 +1,15 @@
+ export class Calculator {
+   private value: number;
+ 
+-  constructor() {
+-    this.value = 0;
++  constructor(initialValue?: number) {
++    this.value = initialValue ?? 0;
+   }
+ 
+   add(n: number): void {
+     this.value += n;
+   }
++
++  multiply(n: number): void {
++    this.value *= n;
++  }
+ }
