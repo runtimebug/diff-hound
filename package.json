@@ -22,6 +22,9 @@
     "test:coverage": "vitest run --config vitest.config.mts --coverage",
     "release": "changeset publish"
   },
+  "publishConfig": {
+    "provenance": true
+  },
   "keywords": [
     "code-review",
     "ai",
