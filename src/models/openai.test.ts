@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
+import { describe, it, expect } from "vitest";
 
 // Test the response parsing function directly
 // We need to extract the parseResponse function for testing

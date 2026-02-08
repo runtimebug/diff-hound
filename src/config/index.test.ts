@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
 import * as fs from "fs";
-import * as path from "path";
 import { loadConfig, validateConfig, DEFAULT_CONFIG } from "./index";
 import { ReviewConfig } from "../types";
 
@@ -92,7 +91,7 @@ verbose: true
   describe("with default config file discovery", () => {
     it("should prefer .aicodeconfig.json over .aicode.yml", async () => {
       const jsonConfig = { model: "gpt-4o" };
-      const yamlConfig = { model: "gpt-3.5-turbo" };
+      // YAML config would be: { model: "gpt-3.5-turbo" }
 
       vi.mocked(fs.existsSync).mockImplementation((p) => {
         const pathStr = p as string;
@@ -241,7 +240,8 @@ describe("validateConfig", () => {
     });
 
     it("should reject invalid provider and fall back to default", () => {
-      const cliOptions = { provider: "invalid-provider" as any };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const cliOptions: any = { provider: "invalid-provider" };
       const config = { ...DEFAULT_CONFIG };
 
       const result = validateConfig(cliOptions, config);
@@ -271,7 +271,8 @@ describe("validateConfig", () => {
     });
 
     it("should reject invalid platform and fall back to default", () => {
-      const cliOptions = { gitPlatform: "bitbucket" as any };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const cliOptions: any = { gitPlatform: "bitbucket" };
       const config = { ...DEFAULT_CONFIG };
 
       const result = validateConfig(cliOptions, config);
@@ -310,7 +311,8 @@ describe("validateConfig", () => {
     });
 
     it("should reject invalid severity and fall back to default", () => {
-      const cliOptions = { severity: "critical" as any };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const cliOptions: any = { severity: "critical" };
       const config = { ...DEFAULT_CONFIG };
 
       const result = validateConfig(cliOptions, config);

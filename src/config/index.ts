@@ -80,7 +80,7 @@ export function validateConfig(
   cliOptions: Partial<ReviewConfig>,
   config: ReviewConfig
 ): ReviewConfig {
-  let finalConfig: ReviewConfig = { ...config, ...cliOptions };
+  const finalConfig: ReviewConfig = { ...config, ...cliOptions };
 
   // Validate provider
   // Todo: Add more providers as needed ("anthropic", "deepseek", "groq", "gemini")
