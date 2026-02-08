@@ -20,6 +20,7 @@ describe("Schema Validation", () => {
             confidence: 0.85,
             title: "Use const instead of let",
             explanation: "The variable is never reassigned",
+            suggestion: "",
           },
         ],
       };
@@ -29,8 +30,9 @@ describe("Schema Validation", () => {
       expect(result.errors).toHaveLength(0);
     });
 
-    it("should validate response without summary", () => {
+    it("should validate response with empty summary", () => {
       const response = {
+        summary: "",
         comments: [
           {
             file: "src/utils.ts",
@@ -40,6 +42,7 @@ describe("Schema Validation", () => {
             confidence: 0.85,
             title: "Use const instead of let",
             explanation: "The variable is never reassigned",
+            suggestion: "",
           },
         ],
       };
@@ -72,6 +75,7 @@ describe("Schema Validation", () => {
             confidence: 0.85,
             title: "Test",
             explanation: "Test",
+            suggestion: "",
           },
         ],
       };
@@ -92,6 +96,7 @@ describe("Schema Validation", () => {
             confidence: 0.85,
             title: "Test",
             explanation: "Test",
+            suggestion: "",
           },
         ],
       };
@@ -112,6 +117,7 @@ describe("Schema Validation", () => {
             confidence: 1.5,
             title: "Test",
             explanation: "Test",
+            suggestion: "",
           },
         ],
       };
@@ -132,6 +138,7 @@ describe("Schema Validation", () => {
             confidence: -0.1,
             title: "Test",
             explanation: "Test",
+            suggestion: "",
           },
         ],
       };
@@ -152,6 +159,7 @@ describe("Schema Validation", () => {
             confidence: 0.85,
             title: "Test",
             explanation: "Test",
+            suggestion: "",
           },
         ],
       };
@@ -172,6 +180,7 @@ describe("Schema Validation", () => {
             confidence: 0.85,
             title: "Test",
             explanation: "Test",
+            suggestion: "",
           },
         ],
       };
@@ -192,6 +201,7 @@ describe("Schema Validation", () => {
             confidence: 0.85,
             title: "Test",
             explanation: "Test",
+            suggestion: "",
           },
         ],
       };
@@ -212,6 +222,7 @@ describe("Schema Validation", () => {
             confidence: 0.85,
             title: "",
             explanation: "Test",
+            suggestion: "",
           },
         ],
       };
@@ -232,6 +243,7 @@ describe("Schema Validation", () => {
             confidence: 0.85,
             title: "Test",
             explanation: "",
+            suggestion: "",
           },
         ],
       };
@@ -246,6 +258,7 @@ describe("Schema Validation", () => {
       
       for (const severity of severities) {
         const response = {
+          summary: "",
           comments: [
             {
               file: "src/utils.ts",
@@ -255,6 +268,7 @@ describe("Schema Validation", () => {
               confidence: 0.85,
               title: "Test",
               explanation: "Test",
+            suggestion: "",
             },
           ],
         };
@@ -269,6 +283,7 @@ describe("Schema Validation", () => {
       
       for (const category of categories) {
         const response = {
+          summary: "",
           comments: [
             {
               file: "src/utils.ts",
@@ -278,6 +293,7 @@ describe("Schema Validation", () => {
               confidence: 0.85,
               title: "Test",
               explanation: "Test",
+            suggestion: "",
             },
           ],
         };
@@ -287,8 +303,9 @@ describe("Schema Validation", () => {
       }
     });
 
-    it("should validate response with optional suggestion", () => {
+    it("should validate response with suggestion", () => {
       const response = {
+        summary: "",
         comments: [
           {
             file: "src/utils.ts",
@@ -332,6 +349,7 @@ describe("Schema Validation", () => {
   describe("parseStructuredResponse", () => {
     it("should parse valid JSON string", () => {
       const json = JSON.stringify({
+        summary: "Test summary",
         comments: [
           {
             file: "src/utils.ts",
@@ -341,6 +359,7 @@ describe("Schema Validation", () => {
             confidence: 0.85,
             title: "Test",
             explanation: "Test",
+            suggestion: "",
           },
         ],
       });
@@ -403,6 +422,7 @@ describe("Schema Validation", () => {
         confidence: 0.95,
         title: "SQL injection risk",
         explanation: "User input is not sanitized",
+        suggestion: "Use parameterized queries",
       };
 
       const result = toAIComment(comment);
@@ -421,6 +441,7 @@ describe("Schema Validation", () => {
         confidence: 0.8,
         title: "N+1 query",
         explanation: "Consider eager loading",
+        suggestion: "",
       };
 
       const result = toAIComment(comment);
@@ -436,6 +457,7 @@ describe("Schema Validation", () => {
         confidence: 0.7,
         title: "Use const",
         explanation: "Variable is not reassigned",
+        suggestion: "const x = 5;",
       };
 
       const nitpickComment: StructuredComment = {
@@ -446,6 +468,7 @@ describe("Schema Validation", () => {
         confidence: 0.6,
         title: "Spacing issue",
         explanation: "Missing space after comma",
+        suggestion: "",
       };
 
       expect(toAIComment(suggestionComment).severity).toBe("suggestion");
@@ -458,6 +481,7 @@ describe("Schema Validation", () => {
         line: 10,
         severity: "warning",
         category: "security",
+        suggestion: "",
         confidence: 0.9,
         title: "Hardcoded secret",
         explanation: "API key should be in environment variable",
@@ -477,6 +501,7 @@ describe("Schema Validation", () => {
         confidence: 0.87,
         title: "Null check missing",
         explanation: "Object could be null",
+        suggestion: "Add null check",
       };
 
       const result = toAIComment(comment);
@@ -510,6 +535,7 @@ describe("Schema Validation", () => {
         confidence: 0.85,
         title: "Use const",
         explanation: "Variable is not reassigned",
+        suggestion: "",
       };
 
       const result = toAIComment(comment);

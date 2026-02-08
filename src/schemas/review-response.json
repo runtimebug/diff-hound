@@ -16,7 +16,7 @@
       }
     }
   },
-  "required": ["comments"],
+  "required": ["summary", "comments"],
   "additionalProperties": false,
   "definitions": {
     "StructuredComment": {
@@ -61,7 +61,7 @@
           "description": "Suggested code fix (optional)"
         }
       },
-      "required": ["file", "line", "severity", "category", "confidence", "title", "explanation"],
+      "required": ["file", "line", "severity", "category", "confidence", "title", "explanation", "suggestion"],
       "additionalProperties": false
     }
   }

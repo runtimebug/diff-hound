@@ -74,7 +74,7 @@ Output your response as a JSON object matching this structure:
       "confidence": 0.95,
       "title": "One-line summary of the issue (max 80 chars)",
       "explanation": "Detailed explanation of why this is an issue",
-      "suggestion": "Optional: suggested fix or improvement"
+      "suggestion": "Suggested fix or improvement (use empty string if none)"
     }
   ]
 }

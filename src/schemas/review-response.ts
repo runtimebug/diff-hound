@@ -23,14 +23,14 @@ export interface StructuredComment {
   confidence: number; // 0.0–1.0
   title: string; // One-line summary (max 80 chars)
   explanation: string; // Detailed explanation
-  suggestion?: string; // Suggested code fix
+  suggestion: string; // Suggested code fix (empty string if none)
 }
 
 /**
  * Structured review response from LLM
  */
 export interface StructuredReviewResponse {
-  summary?: string;
+  summary: string;  // Can be empty string if no summary
   comments: StructuredComment[];
 }
 
@@ -64,7 +64,7 @@ export function toAIComment(
   
   content += `\n\n${comment.explanation}`;
   
-  if (comment.suggestion) {
+  if (comment.suggestion && comment.suggestion.trim().length > 0) {
     content += `\n\n**Suggestion:**\n\`\`\`\n${comment.suggestion}\n\`\`\``;
   }
 

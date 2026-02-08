@@ -75,15 +75,15 @@ export function validateStructuredResponse(
       errors.push(`${prefix}.explanation is required and must be a non-empty string`);
     }
 
-    // Optional fields
-    if (c.suggestion !== undefined && typeof c.suggestion !== "string") {
-      errors.push(`${prefix}.suggestion must be a string if provided`);
+    // Required fields (OpenAI strict mode requires all properties)
+    if (typeof c.suggestion !== "string") {
+      errors.push(`${prefix}.suggestion is required and must be a string (can be empty)`);
     }
   }
 
-  // Check summary if provided
-  if (response.summary !== undefined && typeof response.summary !== "string") {
-    errors.push("'summary' must be a string if provided");
+  // Check summary (required but can be empty)
+  if (typeof response.summary !== "string") {
+    errors.push("'summary' is required and must be a string (can be empty)");
   }
 
   return {
