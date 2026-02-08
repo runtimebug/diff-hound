@@ -1,0 +1,68 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StructuredReviewResponse",
+  "description": "Structured output format for code review responses",
+  "type": "object",
+  "properties": {
+    "summary": {
+      "type": "string",
+      "description": "Optional overall summary of the review"
+    },
+    "comments": {
+      "type": "array",
+      "description": "List of review comments",
+      "items": {
+        "$ref": "#/definitions/StructuredComment"
+      }
+    }
+  },
+  "required": ["summary", "comments"],
+  "additionalProperties": false,
+  "definitions": {
+    "StructuredComment": {
+      "type": "object",
+      "properties": {
+        "file": {
+          "type": "string",
+          "description": "Path to the file being commented on"
+        },
+        "line": {
+          "type": "integer",
+          "description": "Line number in the file (1-based)",
+          "minimum": 1
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["critical", "warning", "suggestion", "nitpick"],
+          "description": "Severity level of the issue"
+        },
+        "category": {
+          "type": "string",
+          "enum": ["bug", "security", "performance", "style", "architecture", "testing"],
+          "description": "Category of the issue"
+        },
+        "confidence": {
+          "type": "number",
+          "description": "Confidence score from 0.0 to 1.0",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "title": {
+          "type": "string",
+          "description": "One-line summary (max 80 characters)",
+          "maxLength": 80
+        },
+        "explanation": {
+          "type": "string",
+          "description": "Detailed explanation of the issue"
+        },
+        "suggestion": {
+          "type": "string",
+          "description": "Suggested code fix (optional)"
+        }
+      },
+      "required": ["file", "line", "severity", "category", "confidence", "title", "explanation", "suggestion"],
+      "additionalProperties": false
+    }
+  }
+}
