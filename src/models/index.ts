@@ -1,5 +1,9 @@
 import { CodeReviewModel } from "../types";
 import { OpenAIModel } from "./openai";
+import { BaseReviewModel, LLMMessage } from "./base";
+
+export { BaseReviewModel, LLMMessage };
+export { OpenAIModel };
 
 /**
  * Get model adapter for the specified AI model
