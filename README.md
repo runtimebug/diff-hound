@@ -14,6 +14,7 @@ Supports GitHub today. GitLab and Bitbucket support are planned.
 - ⚙️ Configurable with JSON/YAML config files and CLI overrides
 - 🛠️ Designed for CI/CD pipelines and local runs
 - 🧐 Tracks last reviewed commit to avoid duplicate reviews
+- 🖥️ Local diff mode — review local changes without a remote PR
 
 ---
 
@@ -140,6 +141,28 @@ diff-hound --repo=owner/repo --provider=openai --model=gpt-4o --dry-run
 
 ---
 
+### Local Diff Mode
+
+Review local git changes without a remote PR or GitHub token. Only an LLM API key is needed.
+
+```bash
+# Review changes between current branch and main
+diff-hound --local --base main
+
+# Review last commit
+diff-hound --local --base HEAD~1
+
+# Review changes between two specific refs
+diff-hound --local --base main --head feature-branch
+
+# Review a patch file directly
+diff-hound --patch changes.patch
+```
+
+Local mode always runs in dry-run — output goes to your terminal. If `--base` is omitted, it defaults to the upstream tracking branch or `HEAD~1`.
+
+---
+
 ### Output Example (Dry Run)
 
 ```bash
@@ -164,9 +187,13 @@ Consider refactoring to reduce nesting.
 | `--git-provider`   | `-g`  | Repo platform (default: `github`)       |
 | `--repo`           | `-r`  | GitHub repo in format `owner/repo`      |
 | `--comment-style`  | `-s`  | `inline` or `summary`                   |
-| `--dry-run`        | `-d`  | Don’t post comments, only print         |
+| `--dry-run`        | `-d`  | Don't post comments, only print         |
 | `--verbose`        | `-v`  | Enable debug logs                       |
 | `--config-path`    | `-c`  | Custom config file path                 |
+| `--local`          | `-l`  | Review local git diff (always dry-run)  |
+| `--base`           |       | Base ref for local diff (branch/commit) |
+| `--head`           |       | Head ref for local diff (default: HEAD) |
+| `--patch`          |       | Path to a patch file (implies `--local`)|
 
 ---
 
@@ -204,15 +231,24 @@ Create a new class in `src/platforms/` that implements the `CodeReviewPlatform` 
 
 ## ✅ Next Steps
 
-🔧 Add Winston for production-grade logging  
-🌐 Implement GitLab and Bitbucket platform adapters  
-🌍 Add support for other AI model providers (e.g. Anthropic, DeepSeek...)  
-💻 Add support for running local models (e.g. Ollama, Llama.cpp, Hugging Face transformers)  
-📤 Add support for webhook triggers (e.g., GitHub Actions, GitLab CI)  
-🧪 Add unit and integration test suites (Jest or Vitest)  
-📦 Publish Docker image for CI/CD use  
-🧩 Enable plugin hooks for custom rule logic  
-🗂 Add support for reviewing diffs from local branches or patch files
+🔧 Structured logging (pino)
+🌐 GitLab and Bitbucket platform adapters
+🌍 Anthropic, Ollama, and Gemini model adapters
+📤 Webhook server mode and GitHub Action
+🧪 Vitest test suite
+📦 Docker image for self-hosting
+🧩 Plugin system with pipeline hooks
+🧠 Repo indexing and context-aware reviews
+
+---
+
+## 🤝 Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for:
+
+- Branching and commit conventions (Angular style)
+- PR workflow (squash-merge)
+- How to add new platform and model adapters
 
 ---
 

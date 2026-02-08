@@ -94,7 +94,7 @@ export function validateConfig(
 
   // Validate platform
   // Todo: Add more platforms as needed ("gitlab", "bitbucket")
-  const validPlatforms: Platform[] = ["github"];
+  const validPlatforms: Platform[] = ["github", "local"];
   if (!validPlatforms.includes(finalConfig.gitPlatform)) {
     console.error(
       `Error: Invalid platform '${finalConfig.gitPlatform}'. Using default: ${DEFAULT_CONFIG.gitPlatform}`

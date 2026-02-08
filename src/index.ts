@@ -23,23 +23,30 @@ async function main(): Promise<void> {
     verboseLog(config, `Bot configuration: ${JSON.stringify(config, null, 2)}`);
 
     // Get platform adapter
-    const platform = await getPlatform(config.gitPlatform);
+    const platform = await getPlatform(config.gitPlatform, config);
     verboseLog(config, `Using platform: ${config.gitPlatform}`);
 
     // Get model adapter
     const model = getModel(config.provider, config.model, config.endpoint);
     verboseLog(config, `Using model: ${config.model}`);
 
-    // Ensure repository is specified
-    if (!config.repo) {
+    // Ensure repository is specified (not needed for local mode)
+    if (!config.local && !config.repo) {
       console.error(
         "Error: Repository is not specified. Please add it to the config file or use the --repo CLI option."
       );
       process.exit(1);
     }
 
+    // In local mode, use a placeholder repo identifier
+    const repo = config.local ? "local" : config.repo!;
+
+    if (config.local) {
+      console.log("Running in local mode (dry-run)");
+    }
+
     // Get pull requests that need review
-    const pullRequests = await platform.getPullRequests(config.repo);
+    const pullRequests = await platform.getPullRequests(repo);
     verboseLog(config, `Found ${pullRequests.length} PRs`);
 
     if (pullRequests.length === 0) {
@@ -54,7 +61,7 @@ async function main(): Promise<void> {
       verboseLog(config, `Processing PR #${pr.number}: ${pr.title}`);
 
       // Check if AI has already commented since the last update
-      const hasCommented = await platform.hasAICommented(config.repo, pr.id);
+      const hasCommented = await platform.hasAICommented(repo, pr.id);
 
       if (hasCommented) {
         verboseLog(
@@ -71,7 +78,7 @@ async function main(): Promise<void> {
 
       try {
         // Get PR diff
-        const diff = await platform.getPullRequestDiff(config.repo, pr.id);
+        const diff = await platform.getPullRequestDiff(repo, pr.id);
         verboseLog(
           config,
           `Got diff for PR #${pr.number} with ${diff.length} changed files`
@@ -90,9 +97,12 @@ async function main(): Promise<void> {
           `Generated ${comments.length} comments for PR #${pr.number}`
         );
 
-        if (cliOptions.dryRun) {
+        if (config.dryRun) {
           // Just print comments in dry run mode
-          console.log(`\n== Comments for PR #${pr.number}: ${pr.title} ==`);
+          const header = config.local
+            ? `\n== Review: ${pr.title} ==`
+            : `\n== Comments for PR #${pr.number}: ${pr.title} ==`;
+          console.log(header);
           comments.forEach((comment) => {
             console.log(
               `\n${
@@ -106,7 +116,7 @@ async function main(): Promise<void> {
         } else {
           // Post comments to PR
           for (const comment of comments) {
-            await platform.postComment(config.repo, pr.id, comment);
+            await platform.postComment(repo, pr.id, comment);
           }
           console.log(`Posted ${comments.length} comments to PR #${pr.number}`);
         }

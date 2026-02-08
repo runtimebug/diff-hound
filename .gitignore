@@ -6,15 +6,8 @@ dist/
 
 # Environment variables
 .env
+.aicodeconfig.json
 
 # IDEs and editors
 .idea/
 .vscode/
-*.swp
-*.swo
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?

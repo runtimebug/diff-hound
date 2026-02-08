@@ -49,20 +49,42 @@ export function parseCli(): Partial<ReviewConfig> {
       "-c, --config-path <path>",
       "Path to config file (default: .aicodeconfig.json or .aicode.yml)"
     )
+    .option(
+      "-l, --local",
+      "Review local git diff instead of remote PRs (always dry-run)"
+    )
+    .option(
+      "--base <ref>",
+      "Base branch/commit for local diff (default: HEAD~1 or upstream)"
+    )
+    .option(
+      "--head <ref>",
+      "Head branch/commit for local diff (default: HEAD)"
+    )
+    .option(
+      "--patch <path>",
+      "Review a patch file directly (implies --local)"
+    )
     .parse(process.argv);
 
   const options = program.opts();
 
+  const isLocal = options.local || options.patch;
+
   return sanitizeCliOptions({
     provider: options.provider,
     model: options.model,
-    gitPlatform: options.gitPlatform as Platform,
+    gitPlatform: isLocal ? "local" as Platform : options.gitPlatform as Platform,
     repo: options.repo,
     commentStyle: options.commentStyle,
-    dryRun: options.dryRun,
+    dryRun: isLocal ? true : options.dryRun,
     verbose: options.verbose,
     endpoint: options.modelEndpoint,
     configPath: options.configPath,
+    local: isLocal || undefined,
+    base: options.base,
+    head: options.head,
+    patch: options.patch,
   });
 }
 

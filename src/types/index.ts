@@ -3,7 +3,7 @@
  */
 
 // Platforms supported by the tool
-export type Platform = "github"; // | "gitlab" | "bitbucket"
+export type Platform = "github" | "local"; // | "gitlab" | "bitbucket"
 
 // AI models supported by the tool
 export type Provider = "openai"; // | "anthropic" | "deepseek" | "groq" | "gemini"
@@ -23,6 +23,11 @@ export interface ReviewConfig {
   ignoreFiles?: string[];
   rules?: string[];
   customPrompt?: string;
+  // Local diff mode options
+  local?: boolean;
+  base?: string;
+  head?: string;
+  patch?: string;
 }
 
 // Pull Request or Merge Request information
