@@ -19,7 +19,8 @@
     "lint": "eslint src/**/*.ts",
     "test": "vitest run --config vitest.config.mts",
     "test:watch": "vitest --config vitest.config.mts",
-    "test:coverage": "vitest run --config vitest.config.mts --coverage"
+    "test:coverage": "vitest run --config vitest.config.mts --coverage",
+    "release": "changeset publish"
   },
   "keywords": [
     "code-review",
