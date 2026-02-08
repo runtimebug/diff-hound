@@ -3,6 +3,7 @@ node_modules/
 
 # Build files
 dist/
+coverage/
 
 # Environment variables
 .env
@@ -11,3 +12,6 @@ dist/
 # IDEs and editors
 .idea/
 .vscode/
+
+# Test
+*.log

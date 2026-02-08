@@ -1,0 +1,5 @@
+src/utils.ts:3 — The function `add` lacks input validation. Consider checking if inputs are numbers.
+
+src/utils.ts:7 — The `subtract` function has the same issue. Add type guards.
+
+src/utils.ts:10 — Variable `UNUSED` is declared but never used. Remove it or mark with underscore prefix.

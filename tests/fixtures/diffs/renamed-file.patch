@@ -1,0 +1,16 @@
+diff --git a/src/old-name.ts b/src/new-name.ts
+similarity index 95%
+rename from src/old-name.ts
+rename to src/new-name.ts
+index abc1234..def5678 100644
+--- a/src/old-name.ts
++++ b/src/new-name.ts
+@@ -5,7 +5,7 @@ export function helper() {
+ }
+ 
+ export function another() {
+-  return 'old';
++  return 'new';
+ }
+ 
+ export const constant = 42;

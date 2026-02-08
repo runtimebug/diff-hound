@@ -1,0 +1,5 @@
+src/file-with-dashes-and.dots.ts:42 — This is a comment with: colons and — em-dashes in the content
+
+src/nested/path/file.ts:1 — Line 1 comment
+
+src/special-chars.ts:100 — Comment with "quotes" and 'apostrophes' and `backticks`

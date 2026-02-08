@@ -1,0 +1,13 @@
+diff --git a/src/old-module.ts b/src/old-module.ts
+deleted file mode 100644
+index 1234567..0000000
+--- a/src/old-module.ts
++++ /dev/null
+@@ -1,20 +0,0 @@
+-export function deprecated() {
+-  console.log('This is deprecated');
+-}
+-
+-export function unused() {
+-  return 42;
+-}

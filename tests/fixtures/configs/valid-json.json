@@ -1,0 +1,12 @@
+{
+  "provider": "openai",
+  "model": "gpt-4o",
+  "gitPlatform": "github",
+  "repo": "owner/repo",
+  "commentStyle": "inline",
+  "dryRun": false,
+  "verbose": true,
+  "severity": "warning",
+  "ignoreFiles": ["*.test.ts", "*.spec.ts"],
+  "rules": ["Check for null safety", "Validate error handling"]
+}

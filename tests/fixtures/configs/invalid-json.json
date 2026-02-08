@@ -1,0 +1,5 @@
+{
+  "provider": "openai",
+  "model": "gpt-4o",
+  "severity": "invalid-value"
+}

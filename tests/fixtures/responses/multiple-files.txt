@@ -1,0 +1,7 @@
+src/calculator.ts:4 — The constructor parameter should validate that initialValue is a number.
+
+src/calculator.ts:12 — The `multiply` method doesn't handle zero multiplication edge case.
+
+src/app.ts:8 — Missing error handling for database connection.
+
+src/app.ts:25 — The `cleanup` method should have proper error handling.
